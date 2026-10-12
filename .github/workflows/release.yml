@@ -1,0 +1,47 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller==6.3.0
+
+      - name: Generate icon
+        run: python make_icon.py
+
+      - name: Build executable
+        run: pyinstaller --noconfirm --clean DualAudio.spec
+
+      - name: Self-test
+        run: dist\DualAudio.exe --selftest
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: DualAudio
+          path: dist/DualAudio.exe
+
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/DualAudio.exe
+          generate_release_notes: true
