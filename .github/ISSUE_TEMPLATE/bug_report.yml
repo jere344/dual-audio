@@ -24,10 +24,10 @@ body:
     validations:
       required: true
   - type: input
-    id: windows
+    id: os
     attributes:
-      label: Windows version
-      placeholder: "e.g. Windows 11 23H2"
+      label: Operating system
+      placeholder: "e.g. Windows 11 23H2, or Ubuntu 24.04 (PipeWire)"
     validations:
       required: true
   - type: input
@@ -39,5 +39,5 @@ body:
     id: log
     attributes:
       label: Error log (optional)
-      description: Paste the contents of %AppData%\DualAudio\error.log if present.
+      description: Paste the contents of error.log if present (%AppData%\DualAudio on Windows, ~/.config/DualAudio on Linux).
       render: text

@@ -4,53 +4,65 @@ Thanks for taking the time to contribute to Dual Audio.
 
 ## Getting started
 
-1. Install **Python 3.10** (PyInstaller 6.x supports up to 3.12).
-2. Install dependencies:
+1. Install [Rust](https://rustup.rs) (1.85+).
+2. Run the app from source:
 
-   ```bat
-   py -3.10 -m pip install -r requirements.txt
+   ```bash
+   cargo run
    ```
 
-3. Run the app from source:
-
-   ```bat
-   run.bat
-   ```
+No system development packages are required on either platform.
 
 ## Project layout
 
 ```
-dual_audio.py     Audio engine (WASAPI loopback capture + multi-output fan-out), UI and tray
-DualAudio.spec    PyInstaller build configuration
-version_info.txt  Windows executable metadata
-make_icon.py      Generates assets/icon.ico and assets/icon.png
+src/main.rs           Entry point, window/tray lifecycle, CLI flags
+src/app.rs            Application state shared by the window and the tray
+src/engine.rs         Capture → per-device jitter buffer → output fan-out
+src/audio/mod.rs      Backend-neutral types
+src/audio/pulse.rs    Linux backend (native PulseAudio protocol; works with PipeWire)
+src/audio/wasapi.rs   Windows backend (WASAPI loopback via cpal)
+src/tray/             Tray icon: StatusNotifierItem (Linux), notification area (Windows)
+src/ui.rs             egui main window
+src/settings.rs       JSON settings
+src/icon.rs           Icon rasterised at runtime
+build.rs              Embeds assets/icon.ico in the Windows executable
 ```
 
-## Building the executable
+## Building a release
 
-```bat
-build.bat
+```bash
+cargo build --release
 ```
 
-The output is `dist\DualAudio.exe` (single file). The build is driven by `DualAudio.spec`, which trims
-unused modules and bundles only the PortAudio build the app loads.
+Release binaries are built by [`.github/workflows/release.yml`](.github/workflows/release.yml) for
+Windows and Linux when a `v*` tag is pushed.
 
-## Verifying a build
+## Testing
 
-```bat
-dist\DualAudio.exe --selftest
+```bash
+cargo test
 ```
 
-This loads every bundled dependency and writes `%AppData%\DualAudio\selftest.ok` (or `selftest.err` on
-failure).
+`engine::tests::mirrors_audio_between_devices` is an end-to-end test against a live sound server and
+is ignored by default. On Linux with PipeWire you can run it with two scratch sinks:
+
+```bash
+pw-cli -m create-node adapter '{ factory.name=support.null-audio-sink node.name=dualtest_src media.class=Audio/Sink object.linger=false audio.position=[FL FR] }' &
+pw-cli -m create-node adapter '{ factory.name=support.null-audio-sink node.name=dualtest_dst media.class=Audio/Sink object.linger=false audio.position=[FL FR] }' &
+DUAL_TEST_SRC=dualtest_src DUAL_TEST_DST=dualtest_dst cargo test -- --ignored
+```
+
+Stop the two `pw-cli` processes afterwards to remove the sinks.
 
 ## Guidelines
 
-- Keep the audio engine on the main thread free; capture and playback run in worker threads.
-- Match the existing code style (no unnecessary comments, small focused functions).
-- Test with at least two output devices before opening a pull request.
+- Keep audio callbacks short: no allocation-heavy work and no blocking beyond the per-output lock.
+- Run `cargo fmt` and `cargo clippy` before opening a pull request.
+- Test with at least two output devices.
 
 ## Reporting bugs
 
-Please use the [issue templates](.github/ISSUE_TEMPLATE) and include your Windows version, the
-devices involved, and any relevant lines from `%AppData%\DualAudio\error.log`.
+Please use the [issue templates](.github/ISSUE_TEMPLATE) and include your OS (and on Linux, whether
+you use PipeWire or PulseAudio), the devices involved, and any relevant lines from `error.log` in the
+settings folder (`%AppData%\DualAudio` or `~/.config/DualAudio`).
