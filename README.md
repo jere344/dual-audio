@@ -9,8 +9,8 @@
 Your OS only plays sound on one output device at a time. Dual Audio mirrors your system audio to as
 many devices as you want, live: no virtual cables, no drivers, no reboots.
 
-[![Download](https://img.shields.io/github/v/release/jere344/windows-dual-audio?label=download&style=for-the-badge)](https://github.com/jere344/windows-dual-audio/releases/latest)
-[![License](https://img.shields.io/github/license/jere344/windows-dual-audio?style=for-the-badge)](LICENSE)
+[![Download](https://img.shields.io/github/v/release/jere344/dual-audio?label=download&style=for-the-badge)](https://github.com/jere344/dual-audio/releases/latest)
+[![License](https://img.shields.io/github/license/jere344/dual-audio?style=for-the-badge)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-0078D6?style=for-the-badge)](#)
 [![Rust](https://img.shields.io/badge/rust-2024-B7410E?style=for-the-badge)](https://www.rust-lang.org/)
 
@@ -33,7 +33,7 @@ many devices as you want, live: no virtual cables, no drivers, no reboots.
 
 ## Download
 
-Grab the latest build from the [**Releases**](https://github.com/jere344/windows-dual-audio/releases/latest) page:
+Grab the latest build from the [**Releases**](https://github.com/jere344/dual-audio/releases/latest) page:
 
 | Platform | File |
 |---|---|
@@ -108,8 +108,8 @@ plus X11 or Wayland with working OpenGL/Vulkan. See [CONTRIBUTING.md](CONTRIBUTI
 
 ## Star history
 
-<a href="https://star-history.com/#jere344/windows-dual-audio&Date">
-  <img src="https://api.star-history.com/svg?repos=jere344/windows-dual-audio&type=Date" width="600" alt="Star history">
+<a href="https://star-history.com/#jere344/dual-audio&Date">
+  <img src="https://api.star-history.com/svg?repos=jere344/dual-audio&type=Date" width="600" alt="Star history">
 </a>
 
 ## License

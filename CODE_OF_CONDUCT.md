@@ -33,7 +33,7 @@ Examples of unacceptable behavior:
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the
 maintainers by opening a confidential report via the repository's
-[security advisories](https://github.com/jere344/windows-dual-audio/security/advisories/new) or by
+[security advisories](https://github.com/jere344/dual-audio/security/advisories/new) or by
 contacting the maintainers directly. All complaints will be reviewed and investigated promptly and
 fairly.
 

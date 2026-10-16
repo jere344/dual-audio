@@ -4,7 +4,7 @@
 
 Please report security issues **privately** using GitHub's security advisories:
 
-https://github.com/jere344/windows-dual-audio/security/advisories/new
+https://github.com/jere344/dual-audio/security/advisories/new
 
 Do not open a public issue for security problems.
 

@@ -4,7 +4,7 @@ version = "2.0.0"
 edition = "2024"
 description = "Play your PC's audio through several output devices at the same time"
 license = "Apache-2.0"
-repository = "https://github.com/jere344/windows-dual-audio"
+repository = "https://github.com/jere344/dual-audio"
 build = "build.rs"
 
 [[bin]]
